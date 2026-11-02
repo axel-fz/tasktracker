@@ -113,7 +113,7 @@ export default function CategoryModal({
                 htmlFor="cat-name"
                 className="text-xs font-semibold text-[#cad5e2]"
               >
-                Category Name <span className="text-red-400">*</span>
+                Category Name
               </label>
               <span className="text-[11px] text-[#627d98]">
                 {nameValue.length}/50

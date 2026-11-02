@@ -119,7 +119,7 @@ export default function TaskModal({
                 htmlFor="task-title"
                 className="text-xs font-semibold text-[#cad5e2]"
               >
-                Task Title <span className="text-red-400">*</span>
+                Task Title
               </label>
               <span className={`text-[11px] ${titleValue.length >= 110 ? "text-amber-400 font-semibold" : "text-[#627d98]"}`}>
                 {titleValue.length}/120
