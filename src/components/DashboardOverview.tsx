@@ -11,7 +11,6 @@ import {
   TrendingUp,
   LayoutDashboard,
   CheckSquare,
-  Sparkles,
   Database,
   ArrowUpRight,
 } from "lucide-react";
@@ -74,14 +73,9 @@ export default function DashboardOverview({
       {/* 1. Welcome & Quick Action Hub Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1e2f4e]/80">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-[#b5e550]/15 border border-[#b5e550]/30 flex items-center justify-center text-[#b5e550]">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f8fafc]">
-              Workspace Overview
-            </h1>
-          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f8fafc]">
+            Workspace Overview
+          </h1>
           <p className="text-xs sm:text-sm text-[#7f98b3] mt-1 max-w-xl">
             Live summary of your workload, project categories, and completion velocity
           </p>
