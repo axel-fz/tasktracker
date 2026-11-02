@@ -42,30 +42,30 @@ export async function GET() {
     const completionRate =
       totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
 
-    // Status breakdown
+    // Status breakdown (Spectral palette mapping)
     const statusBreakdown = [
       {
         status: "Done",
         count: doneTasks,
         percentage: totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0,
-        color: "#10b981", // emerald
+        color: "#10b981", // Emerald
       },
       {
         status: "In Progress",
         count: inProgressTasks,
         percentage:
           totalTasks > 0 ? Math.round((inProgressTasks / totalTasks) * 100) : 0,
-        color: "#3b82f6", // blue
+        color: "#fd7249", // Spectral Tangerine
       },
       {
         status: "To Do",
         count: todoTasks,
         percentage: totalTasks > 0 ? Math.round((todoTasks / totalTasks) * 100) : 0,
-        color: "#8cb4e2", // slate blue
+        color: "#b23255", // Spectral Crimson Rose
       },
     ];
 
-    // Priority breakdown
+    // Priority breakdown (Spectral palette mapping)
     const [highCount, mediumCount, lowCount] = await Promise.all([
       Task.countDocuments({ priority: "High" }),
       Task.countDocuments({ priority: "Medium" }),
@@ -77,20 +77,20 @@ export async function GET() {
         priority: "High",
         count: highCount,
         percentage: totalTasks > 0 ? Math.round((highCount / totalTasks) * 100) : 0,
-        color: "#f87171", // coral red
+        color: "#ff5249", // Spectral Sunset Coral
       },
       {
         priority: "Medium",
         count: mediumCount,
         percentage:
           totalTasks > 0 ? Math.round((mediumCount / totalTasks) * 100) : 0,
-        color: "#38bdf8", // sky blue
+        color: "#fe9346", // Spectral Golden Amber
       },
       {
         priority: "Low",
         count: lowCount,
         percentage: totalTasks > 0 ? Math.round((lowCount / totalTasks) * 100) : 0,
-        color: "#94a3b8", // cool gray
+        color: "#9f8193", // Spectral Soft Plum
       },
     ];
 

@@ -55,24 +55,24 @@ export default function TaskRow({
   const getStatusBadgeStyle = (status: TaskStatus) => {
     switch (status) {
       case "Done":
-        return "bg-[#11332a] text-[#34d399] border-[#059669]/40";
+        return "bg-[#103328] text-[#34d399] border-[#059669]/40";
       case "In Progress":
-        return "bg-[#153154] text-[#60a5fa] border-[#2563eb]/40";
+        return "bg-[#411b13] text-[#fd8059] border-[#fd7249]/40";
       case "To Do":
       default:
-        return "bg-[#19273f] text-[#8cb4e2] border-[#263c62]";
+        return "bg-[#341128] text-[#e892c2] border-[#b23255]/40";
     }
   };
 
   const getPriorityBadgeStyle = (priority: TaskPriority) => {
     switch (priority) {
       case "High":
-        return "bg-[#361928] text-[#f87171] border-[#ef4444]/40";
+        return "bg-[#4a1327] text-[#ff6b87] border-[#b23255]/50";
       case "Medium":
-        return "bg-[#143252] text-[#38bdf8] border-[#0284c7]/40";
+        return "bg-[#3e1f14] text-[#fe9346] border-[#fe9346]/40";
       case "Low":
       default:
-        return "bg-[#182338] text-[#869ab5] border-[#25395a]";
+        return "bg-[#2a1024] text-[#bda0b2] border-[#4a183d]";
     }
   };
 
@@ -96,8 +96,8 @@ export default function TaskRow({
             aria-label={`Mark task ${task.title} as ${isCompleted ? "To Do" : "Done"}`}
             className={`mt-0.5 lg:mt-0 flex-shrink-0 w-5 h-5 rounded flex items-center justify-center transition-all cursor-pointer ${
               isCompleted
-                ? "bg-[#3b82f6] text-white border border-[#2563eb] shadow-sm"
-                : "border border-[#3b5279] hover:border-[#60a5fa] bg-[#0f172a]/60"
+                ? "bg-gradient-to-r from-[#ff5249] to-[#fd7249] text-white border border-[#ff5249] shadow-sm"
+                : "border border-[#4e1c3f] hover:border-[#ff5249] bg-[#1a0715]/60"
             }`}
           >
             {isToggling ? (

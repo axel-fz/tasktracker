@@ -45,9 +45,9 @@ export default function TaskFilterTabs({
             <span>{tab.label}</span>
             {tab.count !== undefined && (
               <span
-                className={`text-xs px-1.5 py-0.5 rounded-full ${
+                className={`text-xs px-2 py-0.5 rounded-full transition-colors ${
                   isActive
-                    ? "bg-[#1d3254] text-[#60a5fa] font-semibold"
+                    ? "bg-[#ff5249]/20 text-[#ff726b] font-semibold"
                     : "text-[#7f98b3]"
                 }`}
               >
@@ -55,7 +55,7 @@ export default function TaskFilterTabs({
               </span>
             )}
             {isActive && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#3b82f6] rounded-t-sm" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#ff5249] to-[#fd7249] rounded-t-sm" />
             )}
           </button>
         );

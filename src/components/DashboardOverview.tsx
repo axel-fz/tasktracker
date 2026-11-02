@@ -378,21 +378,21 @@ export default function DashboardOverview({
                 style={{
                   width: `${counts.all > 0 ? (counts.done / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-emerald-500 h-full transition-all duration-300"
+                className="bg-[#10b981] h-full transition-all duration-300"
                 title={`Done: ${counts.done}`}
               />
               <div
                 style={{
                   width: `${counts.all > 0 ? (counts.inProgress / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-blue-500 h-full transition-all duration-300"
+                className="bg-[#fd7249] h-full transition-all duration-300"
                 title={`In Progress: ${counts.inProgress}`}
               />
               <div
                 style={{
                   width: `${counts.all > 0 ? (counts.todo / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-[#3b82f6]/40 h-full transition-all duration-300"
+                className="bg-[#b23255] h-full transition-all duration-300"
                 title={`To Do: ${counts.todo}`}
               />
             </div>
@@ -400,7 +400,7 @@ export default function DashboardOverview({
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
                   <span className="text-[#cad5e2]">Done</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
@@ -410,7 +410,7 @@ export default function DashboardOverview({
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#fd7249]" />
                   <span className="text-[#cad5e2]">In Progress</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
@@ -420,7 +420,7 @@ export default function DashboardOverview({
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#3b82f6]/40" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#b23255]" />
                   <span className="text-[#cad5e2]">To Do</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
