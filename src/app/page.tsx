@@ -14,6 +14,7 @@ import EmptyState from "@/components/EmptyState";
 import CategoriesView from "@/components/CategoriesView";
 import AnalyticsView from "@/components/AnalyticsView";
 import SettingsView from "@/components/SettingsView";
+import DashboardOverview from "@/components/DashboardOverview";
 import {
   ITaskResponse,
   CreateTaskInput,
@@ -341,7 +342,34 @@ export default function DashboardPage() {
 
         {/* Dynamic Main View Area */}
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto">
-          {currentView === "Categories" ? (
+          {currentView === "Dashboard" ? (
+            <DashboardOverview
+              tasks={tasks}
+              categories={categories}
+              counts={counts}
+              isLoading={isLoading}
+              onNavigate={(view) => setCurrentView(view)}
+              onOpenNewTask={() => {
+                setTaskToEdit(null);
+                setIsTaskModalOpen(true);
+              }}
+              onQuickToggleStatus={handleQuickToggleStatus}
+              onEditTask={(t) => {
+                setTaskToEdit(t);
+                setIsTaskModalOpen(true);
+              }}
+              onDeleteTask={(t) => {
+                setTaskToDelete(t);
+                setIsDeleteModalOpen(true);
+              }}
+              onUpdateStatus={handleUpdateStatus}
+              onUpdatePriority={handleUpdatePriority}
+              onSelectCategoryTasks={(catName) => {
+                setSelectedCategory(catName);
+                setCurrentView("Tasks");
+              }}
+            />
+          ) : currentView === "Categories" ? (
             <CategoriesView
               onSelectCategoryTasks={(catName) => {
                 setSelectedCategory(catName);
@@ -358,7 +386,7 @@ export default function DashboardPage() {
           ) : currentView === "Settings" ? (
             <SettingsView />
           ) : (
-            /* Main Task Tracker Dashboard View */
+            /* Dedicated Full Tasks View */
             <div>
               {/* Category Filter Pill (if selected) */}
               {selectedCategory && (
