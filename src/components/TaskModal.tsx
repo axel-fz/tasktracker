@@ -40,45 +40,21 @@ export default function TaskModal({
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isSubmitting },
   } = useForm<CreateTaskInput>({
     resolver: zodResolver(createTaskSchema) as any,
     defaultValues: {
-      title: "",
-      description: "",
-      status: "To Do",
-      priority: "Medium",
-      category: "General",
+      title: taskToEdit?.title || "",
+      description: taskToEdit?.description || "",
+      status: taskToEdit?.status || "To Do",
+      priority: taskToEdit?.priority || "Medium",
+      category: taskToEdit?.category || defaultCategory || "General",
     },
   });
 
   const titleValue = useWatch({ control, name: "title" }) || "";
   const descriptionValue = useWatch({ control, name: "description" }) || "";
-
-  // Reset form values strictly when the modal opens
-  useEffect(() => {
-    if (isOpen) {
-      if (taskToEdit) {
-        reset({
-          title: taskToEdit.title,
-          description: taskToEdit.description || "",
-          status: taskToEdit.status,
-          priority: taskToEdit.priority,
-          category: taskToEdit.category || "General",
-        });
-      } else {
-        reset({
-          title: "",
-          description: "",
-          status: "To Do",
-          priority: "Medium",
-          category: defaultCategory || "General",
-        });
-      }
-    }
-  }, [isOpen, taskToEdit, defaultCategory, reset]);
 
   // Handle escape key
   useEffect(() => {

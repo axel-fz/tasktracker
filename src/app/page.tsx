@@ -482,17 +482,20 @@ export default function DashboardPage() {
       </div>
 
       {/* 3. Create / Edit Task Modal */}
-      <TaskModal
-        isOpen={isTaskModalOpen}
-        onClose={() => {
-          setIsTaskModalOpen(false);
-          setTaskToEdit(null);
-        }}
-        onSubmit={handleSaveTask}
-        taskToEdit={taskToEdit}
-        categories={categories}
-        defaultCategory={selectedCategory}
-      />
+      {isTaskModalOpen && (
+        <TaskModal
+          key={taskToEdit ? `edit-${taskToEdit._id}` : `new-task`}
+          isOpen={isTaskModalOpen}
+          onClose={() => {
+            setIsTaskModalOpen(false);
+            setTaskToEdit(null);
+          }}
+          onSubmit={handleSaveTask}
+          taskToEdit={taskToEdit}
+          categories={categories}
+          defaultCategory={selectedCategory}
+        />
+      )}
 
       {/* 4. Delete Confirmation Dialog */}
       <DeleteConfirmModal

@@ -280,15 +280,18 @@ export default function CategoriesView({
       )}
 
       {/* Category Modal */}
-      <CategoryModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setCategoryToEdit(null);
-        }}
-        onSubmit={handleSaveCategory}
-        categoryToEdit={categoryToEdit}
-      />
+      {isModalOpen && (
+        <CategoryModal
+          key={categoryToEdit ? categoryToEdit._id : "new-cat"}
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setCategoryToEdit(null);
+          }}
+          onSubmit={handleSaveCategory}
+          categoryToEdit={categoryToEdit}
+        />
+      )}
 
       {/* Delete Category Modal */}
       <DeleteCategoryModal

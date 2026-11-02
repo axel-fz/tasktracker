@@ -38,42 +38,21 @@ export default function CategoryModal({
   const {
     register,
     handleSubmit,
-    reset,
     control,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateCategoryInput>({
     resolver: zodResolver(createCategorySchema) as any,
     defaultValues: {
-      name: "",
-      color: "#3b82f6",
-      icon: "Folder",
-      description: "",
+      name: categoryToEdit?.name || "",
+      color: categoryToEdit?.color || "#3b82f6",
+      icon: categoryToEdit?.icon || "Folder",
+      description: categoryToEdit?.description || "",
     },
   });
 
   const selectedColor = useWatch({ control, name: "color" }) || "#3b82f6";
   const nameValue = useWatch({ control, name: "name" }) || "";
-
-  useEffect(() => {
-    if (isOpen) {
-      if (categoryToEdit) {
-        reset({
-          name: categoryToEdit.name,
-          color: categoryToEdit.color || "#3b82f6",
-          icon: categoryToEdit.icon || "Folder",
-          description: categoryToEdit.description || "",
-        });
-      } else {
-        reset({
-          name: "",
-          color: "#3b82f6",
-          icon: "Folder",
-          description: "",
-        });
-      }
-    }
-  }, [isOpen, categoryToEdit, reset]);
 
   // Handle escape key
   useEffect(() => {
