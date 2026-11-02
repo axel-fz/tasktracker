@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = request.nextUrl;
     const statusParam = searchParams.get("status");
+    const categoryParam = searchParams.get("category");
     const searchParam = searchParams.get("search");
 
     const filter: Record<string, unknown> = {};
@@ -25,6 +26,10 @@ export async function GET(request: NextRequest) {
       TASK_STATUSES.includes(statusParam as TaskStatus)
     ) {
       filter.status = statusParam;
+    }
+
+    if (categoryParam && categoryParam !== "All") {
+      filter.category = categoryParam;
     }
 
     if (searchParam && typeof searchParam === "string" && searchParam.trim()) {
@@ -94,12 +99,13 @@ export async function POST(request: NextRequest) {
 
     await connectToDatabase();
 
-    const { title, description, status, priority } = validationResult.data;
+    const { title, description, status, priority, category } = validationResult.data;
     const newTask = await Task.create({
       title,
       description,
       status,
       priority,
+      category: category || "General",
     });
 
     return NextResponse.json(

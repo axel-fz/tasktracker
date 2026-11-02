@@ -5,6 +5,7 @@ export interface ITask extends Document {
   description?: string;
   status: "To Do" | "In Progress" | "Done";
   priority: "Low" | "Medium" | "High";
+  category?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -42,6 +43,11 @@ const TaskSchema = new Schema<ITask>(
       default: "Medium",
       required: true,
     },
+    category: {
+      type: String,
+      default: "General",
+      trim: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -57,4 +63,3 @@ const Task: Model<ITask> =
   mongoose.models.Task || mongoose.model<ITask>("Task", TaskSchema);
 
 export default Task;
-

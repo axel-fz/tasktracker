@@ -19,6 +19,7 @@ export const createTaskSchema = z.object({
     .optional(),
   status: z.enum(TASK_STATUSES),
   priority: z.enum(TASK_PRIORITIES),
+  category: z.string().trim().optional().default("General"),
 });
 
 export const updateTaskSchema = z.object({
@@ -35,6 +36,7 @@ export const updateTaskSchema = z.object({
     .optional(),
   status: z.enum(TASK_STATUSES).optional(),
   priority: z.enum(TASK_PRIORITIES).optional(),
+  category: z.string().trim().optional(),
 });
 
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
@@ -46,6 +48,7 @@ export interface ITaskResponse {
   description?: string;
   status: TaskStatus;
   priority: TaskPriority;
+  category?: string;
   createdAt: string;
   updatedAt: string;
 }

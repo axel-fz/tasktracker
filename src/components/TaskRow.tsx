@@ -109,15 +109,22 @@ export default function TaskRow({
 
           {/* Title & Truncated Description */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 flex-1 min-w-0">
-            <h3
-              className={`text-sm font-medium tracking-tight truncate ${
-                isCompleted
-                  ? "line-through text-[#6e85a0]"
-                  : "text-[#f8fafc] group-hover:text-white"
-              }`}
-            >
-              {task.title}
-            </h3>
+            <div className="flex items-center gap-2 min-w-0">
+              <h3
+                className={`text-sm font-medium tracking-tight truncate ${
+                  isCompleted
+                    ? "line-through text-[#6e85a0]"
+                    : "text-[#f8fafc] group-hover:text-white"
+                }`}
+              >
+                {task.title}
+              </h3>
+              {task.category && (
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#18263f] text-[#93c5fd] font-medium border border-[#23385d] flex-shrink-0 hidden xs:inline-block">
+                  {task.category}
+                </span>
+              )}
+            </div>
             <p className="text-xs text-[#7f98b3] truncate hidden sm:block">
               {task.description || "No description provided."}
             </p>

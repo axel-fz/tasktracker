@@ -35,7 +35,7 @@ export default function Header({
           </button>
         )}
       </div>
-
+        
       {/* Header Right Actions */}
       <div className="flex items-center gap-3">
         {/* Help Icon */}

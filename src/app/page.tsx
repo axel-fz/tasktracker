@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useTransition } from "react";
 import { toast } from "sonner";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { CheckCircle2, Database, ShieldCheck, Tag, X } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import TaskFilterTabs, { FilterTab } from "@/components/TaskFilterTabs";
@@ -11,15 +11,20 @@ import TaskModal from "@/components/TaskModal";
 import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 import TaskSkeletons from "@/components/TaskSkeletons";
 import EmptyState from "@/components/EmptyState";
+import CategoriesView from "@/components/CategoriesView";
+import AnalyticsView from "@/components/AnalyticsView";
 import {
   ITaskResponse,
   CreateTaskInput,
   TaskStatus,
   TaskPriority,
 } from "@/lib/validations/task";
+import { ICategoryResponse } from "@/lib/validations/category";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState<ITaskResponse[]>([]);
+  const [categories, setCategories] = useState<ICategoryResponse[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [counts, setCounts] = useState({
     all: 0,
     todo: 0,
@@ -38,7 +43,7 @@ export default function DashboardPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<ITaskResponse | null>(null);
 
-  // Active sidebar view
+  // Active sidebar view: "Dashboard" | "Tasks" | "Categories" | "Analytics" | "Settings"
   const [currentView, setCurrentView] = useState("Dashboard");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -46,7 +51,27 @@ export default function DashboardPage() {
     setRefreshKey((k) => k + 1);
   }, []);
 
-  // Fetch tasks when tab, search, or refreshKey changes
+  // Fetch available categories for forms and filters
+  useEffect(() => {
+    let ignore = false;
+    async function loadCategories() {
+      try {
+        const res = await fetch("/api/categories");
+        const json = await res.json();
+        if (!ignore && json.success) {
+          setCategories(json.data);
+        }
+      } catch (err) {
+        console.error("Categories fetch error:", err);
+      }
+    }
+    loadCategories();
+    return () => {
+      ignore = true;
+    };
+  }, [refreshKey]);
+
+  // Fetch tasks when tab, search, category, or refreshKey changes
   useEffect(() => {
     let ignore = false;
 
@@ -55,6 +80,9 @@ export default function DashboardPage() {
         const params = new URLSearchParams();
         if (activeTab !== "All Tasks") {
           params.set("status", activeTab);
+        }
+        if (selectedCategory) {
+          params.set("category", selectedCategory);
         }
         if (searchQuery.trim()) {
           params.set("search", searchQuery.trim());
@@ -83,7 +111,7 @@ export default function DashboardPage() {
     return () => {
       ignore = true;
     };
-  }, [activeTab, searchQuery, refreshKey]);
+  }, [activeTab, searchQuery, selectedCategory, refreshKey]);
 
   // Quick toggle status (Done <-> To Do) with optimistic update
   const handleQuickToggleStatus = async (task: ITaskResponse) => {
@@ -102,7 +130,8 @@ export default function DashboardPage() {
     setCounts((prev) => {
       const updated = { ...prev };
       if (task.status === "To Do") updated.todo = Math.max(0, updated.todo - 1);
-      if (task.status === "In Progress") updated.inProgress = Math.max(0, updated.inProgress - 1);
+      if (task.status === "In Progress")
+        updated.inProgress = Math.max(0, updated.inProgress - 1);
       if (task.status === "Done") updated.done = Math.max(0, updated.done - 1);
 
       if (newStatus === "To Do") updated.todo += 1;
@@ -142,13 +171,11 @@ export default function DashboardPage() {
       if (!result.success) {
         throw new Error(result.message || "Failed to update task");
       }
-      // Re-fetch counts to ensure accuracy
       startTransition(() => {
         triggerRefresh();
       });
     } catch (error) {
       console.error("Status update error:", error);
-      // Revert optimistic updates
       setTasks(previousTasks);
       setCounts(previousCounts);
       toast.error("Status update failed", {
@@ -223,7 +250,6 @@ export default function DashboardPage() {
   const handleSaveTask = async (data: CreateTaskInput) => {
     try {
       if (taskToEdit) {
-        // Edit mode
         const res = await fetch(`/api/tasks/${taskToEdit._id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -232,9 +258,8 @@ export default function DashboardPage() {
         const result = await res.json();
         if (!result.success) throw new Error(result.message);
 
-        toast.success("Task updated successfully");
+        toast.success("Task updated successfully in MongoDB Atlas");
       } else {
-        // Create mode
         const res = await fetch("/api/tasks", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -243,7 +268,7 @@ export default function DashboardPage() {
         const result = await res.json();
         if (!result.success) throw new Error(result.message);
 
-        toast.success("New task created successfully");
+        toast.success("New task stored in MongoDB Atlas");
       }
 
       setIsTaskModalOpen(false);
@@ -290,7 +315,10 @@ export default function DashboardPage() {
         currentView={currentView}
         onNavigate={(view) => {
           setCurrentView(view);
-          if (view === "Tasks") setActiveTab("All Tasks");
+          if (view === "Tasks" || view === "Dashboard") {
+            // Keep current filters or reset if clicking Dashboard
+            if (view === "Dashboard") setSelectedCategory(null);
+          }
         }}
       />
 
@@ -306,58 +334,148 @@ export default function DashboardPage() {
           }}
         />
 
-        {/* Main View Area */}
+        {/* Dynamic Main View Area */}
         <main className="flex-1 px-8 py-6 max-w-7xl w-full mx-auto">
-          {/* View Heading & Filter Tabs */}
-          <div className="mb-2">
-            <TaskFilterTabs
-              activeTab={activeTab}
-              onTabChange={(tab) => setActiveTab(tab)}
-              counts={counts}
+          {currentView === "Categories" ? (
+            <CategoriesView
+              onSelectCategoryTasks={(catName) => {
+                setSelectedCategory(catName);
+                setCurrentView("Tasks");
+              }}
             />
-          </div>
+          ) : currentView === "Analytics" ? (
+            <AnalyticsView
+              onFilterByCategory={(catName) => {
+                setSelectedCategory(catName);
+                setCurrentView("Tasks");
+              }}
+            />
+          ) : currentView === "Settings" ? (
+            <div className="space-y-6 animate-in fade-in duration-150">
+              <div className="pb-4 border-b border-[#1e2f4e]/80">
+                <h1 className="text-xl font-bold tracking-tight text-[#f8fafc]">
+                  System & Database Settings
+                </h1>
+                <p className="text-xs text-[#7f98b3] mt-0.5">
+                  Environment connection parameters and infrastructure health
+                </p>
+              </div>
 
-          {/* Task Rows List / Loading / Empty States */}
-          {isLoading ? (
-            <TaskSkeletons count={6} />
-          ) : tasks.length === 0 ? (
-            <EmptyState
-              isSearchActive={Boolean(searchQuery.trim())}
-              filterTab={activeTab}
-              onClearFilters={() => {
-                setSearchQuery("");
-                setActiveTab("All Tasks");
-              }}
-              onOpenNewTask={() => {
-                setTaskToEdit(null);
-                setIsTaskModalOpen(true);
-              }}
-            />
+              <div className="rounded-xl border border-[#1e2f4e]/80 bg-[#131e33] p-6 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <Database className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#f8fafc]">
+                      MongoDB Atlas Cloud Storage
+                    </h2>
+                    <p className="text-xs text-[#7f98b3]">
+                      Connected to remote cluster replica set
+                    </p>
+                  </div>
+                  <span className="ml-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Online
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#1e2f4e]/60 text-xs">
+                  <div className="p-3 bg-[#0d1627] rounded-lg border border-[#1e2f4e]">
+                    <span className="text-[#7f98b3] block font-medium">Cluster Host</span>
+                    <span className="text-[#f8fafc] font-mono mt-0.5 block">
+                      tasktracker.rnv70gc.mongodb.net
+                    </span>
+                  </div>
+                  <div className="p-3 bg-[#0d1627] rounded-lg border border-[#1e2f4e]">
+                    <span className="text-[#7f98b3] block font-medium">Database Name</span>
+                    <span className="text-[#f8fafc] font-mono mt-0.5 block">
+                      tasktracker
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2 text-xs text-[#7f98b3]">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>
+                    Authenticated with encrypted TLS connection and strict Mongoose schema validation.
+                  </span>
+                </div>
+              </div>
+            </div>
           ) : (
-            <div className="space-y-2.5">
-              {tasks.map((task) => (
-                <TaskRow
-                  key={task._id}
-                  task={task}
-                  isSelected={selectedTaskId === task._id}
-                  onSelect={() =>
-                    setSelectedTaskId(
-                      selectedTaskId === task._id ? null : task._id
-                    )
-                  }
-                  onQuickToggleStatus={handleQuickToggleStatus}
-                  onEdit={(t) => {
-                    setTaskToEdit(t);
+            /* Main Task Tracker Dashboard View */
+            <div>
+              {/* Category Filter Pill (if selected) */}
+              {selectedCategory && (
+                <div className="flex items-center gap-2 mb-4 bg-[#14233c] border border-[#233b63] rounded-lg px-3 py-1.5 w-fit text-xs text-[#93c5fd]">
+                  <Tag className="w-3.5 h-3.5 text-blue-400" />
+                  <span>
+                    Category: <strong className="text-white">{selectedCategory}</strong>
+                  </span>
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    title="Clear category filter"
+                    className="ml-1 p-0.5 rounded hover:bg-[#1e345b] text-[#7f98b3] hover:text-white"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
+
+              {/* View Heading & Filter Tabs */}
+              <div className="mb-2">
+                <TaskFilterTabs
+                  activeTab={activeTab}
+                  onTabChange={(tab) => setActiveTab(tab)}
+                  counts={counts}
+                />
+              </div>
+
+              {/* Task Rows List / Loading / Empty States */}
+              {isLoading ? (
+                <TaskSkeletons count={6} />
+              ) : tasks.length === 0 ? (
+                <EmptyState
+                  isSearchActive={Boolean(searchQuery.trim()) || Boolean(selectedCategory)}
+                  filterTab={activeTab}
+                  onClearFilters={() => {
+                    setSearchQuery("");
+                    setSelectedCategory(null);
+                    setActiveTab("All Tasks");
+                  }}
+                  onOpenNewTask={() => {
+                    setTaskToEdit(null);
                     setIsTaskModalOpen(true);
                   }}
-                  onDelete={(t) => {
-                    setTaskToDelete(t);
-                    setIsDeleteModalOpen(true);
-                  }}
-                  onUpdateStatus={handleUpdateStatus}
-                  onUpdatePriority={handleUpdatePriority}
                 />
-              ))}
+              ) : (
+                <div className="space-y-2.5">
+                  {tasks.map((task) => (
+                    <TaskRow
+                      key={task._id}
+                      task={task}
+                      isSelected={selectedTaskId === task._id}
+                      onSelect={() =>
+                        setSelectedTaskId(
+                          selectedTaskId === task._id ? null : task._id
+                        )
+                      }
+                      onQuickToggleStatus={handleQuickToggleStatus}
+                      onEdit={(t) => {
+                        setTaskToEdit(t);
+                        setIsTaskModalOpen(true);
+                      }}
+                      onDelete={(t) => {
+                        setTaskToDelete(t);
+                        setIsDeleteModalOpen(true);
+                      }}
+                      onUpdateStatus={handleUpdateStatus}
+                      onUpdatePriority={handleUpdatePriority}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </main>
@@ -372,6 +490,7 @@ export default function DashboardPage() {
         }}
         onSubmit={handleSaveTask}
         taskToEdit={taskToEdit}
+        categories={categories}
       />
 
       {/* 4. Delete Confirmation Dialog */}

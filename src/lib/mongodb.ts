@@ -29,8 +29,13 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
         try {
           const m = await mongoose.connect(MONGODB_URI, {
             bufferCommands: false,
-            serverSelectionTimeoutMS: 2000,
+            serverSelectionTimeoutMS: 15000,
+            connectTimeoutMS: 15000,
+            dbName: "tasktracker",
           });
+          console.log(
+            `[MongoDB] Successfully connected to database "${m.connection.name}" at host: ${m.connection.host}`
+          );
           return m;
         } catch (err) {
           console.warn(
@@ -40,7 +45,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
         }
       }
 
-      // Development / fallback in-memory MongoDB server
+      // Development / offline fallback in-memory MongoDB server
       try {
         const { MongoMemoryServer } = await import("mongodb-memory-server");
         if (!cached!.memServer) {
@@ -48,7 +53,11 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
         }
         const memServer = cached!.memServer as { getUri: () => string };
         const memUri = memServer.getUri();
-        const m = await mongoose.connect(memUri, { bufferCommands: false });
+        const m = await mongoose.connect(memUri, {
+          bufferCommands: false,
+          dbName: "tasktracker",
+        });
+        console.log("[MongoDB] Connected to local in-memory fallback:", memUri);
         return m;
       } catch (memErr) {
         console.error("[MongoDB] In-memory MongoDB failed:", memErr);

@@ -12,11 +12,18 @@ import {
   TASK_PRIORITIES,
 } from "@/lib/validations/task";
 
+interface CategoryOption {
+  _id: string;
+  name: string;
+  color?: string;
+}
+
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateTaskInput) => Promise<void>;
   taskToEdit?: ITaskResponse | null;
+  categories?: CategoryOption[];
 }
 
 export default function TaskModal({
@@ -24,6 +31,7 @@ export default function TaskModal({
   onClose,
   onSubmit,
   taskToEdit,
+  categories = [],
 }: TaskModalProps) {
   const isEditing = Boolean(taskToEdit);
 
@@ -40,6 +48,7 @@ export default function TaskModal({
       description: "",
       status: "To Do",
       priority: "Medium",
+      category: "General",
     },
   });
 
@@ -54,6 +63,7 @@ export default function TaskModal({
           description: taskToEdit.description || "",
           status: taskToEdit.status,
           priority: taskToEdit.priority,
+          category: taskToEdit.category || "General",
         });
       } else {
         reset({
@@ -61,10 +71,11 @@ export default function TaskModal({
           description: "",
           status: "To Do",
           priority: "Medium",
+          category: categories[0]?.name || "General",
         });
       }
     }
-  }, [isOpen, taskToEdit, reset]);
+  }, [isOpen, taskToEdit, categories, reset]);
 
   // Handle escape key
   useEffect(() => {
@@ -184,8 +195,38 @@ export default function TaskModal({
             )}
           </div>
 
-          {/* Status & Priority Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Category, Status & Priority Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Category Select */}
+            <div>
+              <label
+                htmlFor="task-category"
+                className="block text-xs font-semibold text-[#cad5e2] mb-1.5"
+              >
+                Category
+              </label>
+              <select
+                id="task-category"
+                {...register("category")}
+                className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3 py-2 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
+              >
+                {categories.length > 0 ? (
+                  categories.map((c) => (
+                    <option key={c._id} value={c.name} className="bg-[#111c30]">
+                      {c.name}
+                    </option>
+                  ))
+                ) : (
+                  <>
+                    <option value="General" className="bg-[#111c30]">General</option>
+                    <option value="Engineering" className="bg-[#111c30]">Engineering</option>
+                    <option value="Design" className="bg-[#111c30]">Design</option>
+                    <option value="Product" className="bg-[#111c30]">Product</option>
+                  </>
+                )}
+              </select>
+            </div>
+
             {/* Status Select */}
             <div>
               <label
@@ -197,7 +238,7 @@ export default function TaskModal({
               <select
                 id="task-status"
                 {...register("status")}
-                className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3.5 py-2.5 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3 py-2 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
               >
                 {TASK_STATUSES.map((status) => (
                   <option key={status} value={status} className="bg-[#111c30]">
@@ -218,7 +259,7 @@ export default function TaskModal({
               <select
                 id="task-priority"
                 {...register("priority")}
-                className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3.5 py-2.5 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3 py-2 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
               >
                 {TASK_PRIORITIES.map((priority) => (
                   <option key={priority} value={priority} className="bg-[#111c30]">
