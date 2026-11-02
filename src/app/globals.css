@@ -73,7 +73,7 @@ html.dark body {
 /* Canvas & Global Main Containers */
 html.dark .bg-\[\#0b111e\],
 html.dark main {
-  background-color: transparent !important;
+  background-color: #11170c !important;
 }
 
 html.dark .bg-\[\#0b111e\]\/90 {
@@ -258,7 +258,7 @@ html.light body {
 /* Canvas & Global Main Containers */
 html.light .bg-\[\#0b111e\],
 html.light main {
-  background-color: transparent !important;
+  background-color: #fbfbf6 !important;
 }
 
 html.light .bg-\[\#0b111e\]\/90 {

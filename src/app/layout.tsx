@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AppToaster from "@/components/AppToaster";
-import BackgroundCanvasAnimation from "@/components/BackgroundCanvasAnimation";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -52,12 +51,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-[#0b111e] text-[#f8fafc] antialiased relative">
+      <body className="min-h-screen bg-[#0b111e] text-[#f8fafc] antialiased">
         <ThemeProvider>
-          <BackgroundCanvasAnimation />
-          <div className="relative z-10 min-h-screen">
-            {children}
-          </div>
+          {children}
           <AppToaster />
         </ThemeProvider>
       </body>
