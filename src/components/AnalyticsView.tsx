@@ -386,7 +386,7 @@ export default function AnalyticsView({
                       </span>
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#381c2b] text-[#f87171] border border-[#ef4444]/40 flex-shrink-0">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded border flex-shrink-0 badge-priority-high">
                     High
                   </span>
                 </div>

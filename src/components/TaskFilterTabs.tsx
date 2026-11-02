@@ -28,7 +28,7 @@ export default function TaskFilterTabs({
   ];
 
   return (
-    <div className="flex items-center gap-4 sm:gap-6 border-b border-[#1e2f4d]/80 pb-px mb-6 overflow-x-auto no-scrollbar whitespace-nowrap touch-pan-x">
+    <div className="flex items-center gap-4 sm:gap-6 border-b border-[#dbe4cd] dark:border-[#1e2f4d]/80 pb-px mb-6 overflow-x-auto no-scrollbar whitespace-nowrap touch-pan-x">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
 
@@ -36,10 +36,10 @@ export default function TaskFilterTabs({
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`relative pb-3 text-sm font-medium transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
+            className={`relative pb-3 text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
               isActive
-                ? "text-[#f8fafc]"
-                : "text-[#7f98b3] hover:text-[#cad5e2]"
+                ? "text-[#18220f] dark:text-[#f8fafc]"
+                : "text-[#5f7052] hover:text-[#18220f] dark:text-[#7f98b3] dark:hover:text-[#cad5e2]"
             }`}
           >
             <span>{tab.label}</span>
@@ -47,15 +47,15 @@ export default function TaskFilterTabs({
               <span
                 className={`text-xs px-2 py-0.5 rounded-full transition-colors ${
                   isActive
-                    ? "bg-[#b5e550]/15 text-[#b5e550] font-semibold"
-                    : "text-[#7f98b3]"
+                    ? "bg-[#809c13]/15 text-[#4a5f0f] dark:bg-[#b5e550]/15 dark:text-[#b5e550] font-bold"
+                    : "text-[#5f7052] dark:text-[#7f98b3]"
                 }`}
               >
                 ({tab.count})
               </span>
             )}
             {isActive && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#b5e550] to-[#abc32f] rounded-t-sm" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#809c13] to-[#607c3c] dark:from-[#b5e550] dark:to-[#abc32f] rounded-t-sm" />
             )}
           </button>
         );

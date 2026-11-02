@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     /* Botanical Citron & Olive Dark Palette Tokens */
@@ -486,4 +488,73 @@ html.light ::-webkit-scrollbar-thumb {
 }
 html.light ::-webkit-scrollbar-thumb:hover {
   background: #a9ba95;
+}
+
+/* ========================================================
+   STATUS & PRIORITY BADGES (LIGHT & DARK MODES)
+   ======================================================== */
+.badge-status-done {
+  background-color: #effad9 !important;
+  color: #2e4a06 !important;
+  border-color: #b5e550 !important;
+}
+html.dark .badge-status-done {
+  background-color: #182a15 !important;
+  color: #b5e550 !important;
+  border-color: rgba(181, 229, 80, 0.45) !important;
+}
+
+.badge-status-inprogress {
+  background-color: #f8fae5 !important;
+  color: #55690b !important;
+  border-color: #abc32f !important;
+}
+html.dark .badge-status-inprogress {
+  background-color: #252c10 !important;
+  color: #abc32f !important;
+  border-color: rgba(171, 195, 47, 0.45) !important;
+}
+
+.badge-status-todo {
+  background-color: #f1f4ec !important;
+  color: #384a24 !important;
+  border-color: #c4d4b6 !important;
+}
+html.dark .badge-status-todo {
+  background-color: #1e2716 !important;
+  color: #94a888 !important;
+  border-color: rgba(96, 124, 60, 0.45) !important;
+}
+
+.badge-priority-high {
+  background-color: #fff1eb !important;
+  color: #c2410c !important;
+  border-color: #fdba74 !important;
+}
+html.dark .badge-priority-high {
+  background-color: #331c12 !important;
+  color: #ff7849 !important;
+  border-color: rgba(249, 115, 22, 0.4) !important;
+}
+
+.badge-priority-medium {
+  background-color: #fbfde8 !important;
+  color: #5d7009 !important;
+  border-color: #abc32f !important;
+}
+html.dark .badge-priority-medium {
+  background-color: #272b10 !important;
+  color: #abc32f !important;
+  border-color: rgba(171, 195, 47, 0.4) !important;
+}
+
+.badge-priority-low {
+  background-color: #f3f6f1 !important;
+  color: #485b3b !important;
+  border-color: #cbd8c4 !important;
+}
+html.dark .badge-priority-low {
+  background-color: #1b2315 !important;
+  color: #869a7a !important;
+  border-color: #344626 !important;
 }
