@@ -42,30 +42,30 @@ export async function GET() {
     const completionRate =
       totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
 
-    // Status breakdown (Spectral palette mapping)
+    // Status breakdown (Botanical Lime & Olive palette mapping)
     const statusBreakdown = [
       {
         status: "Done",
         count: doneTasks,
         percentage: totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0,
-        color: "#10b981", // Emerald
+        color: "#b5e550", // Vibrant Lime Chartreuse
       },
       {
         status: "In Progress",
         count: inProgressTasks,
         percentage:
           totalTasks > 0 ? Math.round((inProgressTasks / totalTasks) * 100) : 0,
-        color: "#fd7249", // Spectral Tangerine
+        color: "#abc32f", // Citron Golden Moss
       },
       {
         status: "To Do",
         count: todoTasks,
         percentage: totalTasks > 0 ? Math.round((todoTasks / totalTasks) * 100) : 0,
-        color: "#b23255", // Spectral Crimson Rose
+        color: "#809c13", // Deep Olive Leaf
       },
     ];
 
-    // Priority breakdown (Spectral palette mapping)
+    // Priority breakdown (Botanical Lime & Olive palette mapping)
     const [highCount, mediumCount, lowCount] = await Promise.all([
       Task.countDocuments({ priority: "High" }),
       Task.countDocuments({ priority: "Medium" }),
@@ -77,20 +77,20 @@ export async function GET() {
         priority: "High",
         count: highCount,
         percentage: totalTasks > 0 ? Math.round((highCount / totalTasks) * 100) : 0,
-        color: "#ff5249", // Spectral Sunset Coral
+        color: "#ff7849", // Warm Amber Flame
       },
       {
         priority: "Medium",
         count: mediumCount,
         percentage:
           totalTasks > 0 ? Math.round((mediumCount / totalTasks) * 100) : 0,
-        color: "#fe9346", // Spectral Golden Amber
+        color: "#b5e550", // Vibrant Lime
       },
       {
         priority: "Low",
         count: lowCount,
         percentage: totalTasks > 0 ? Math.round((lowCount / totalTasks) * 100) : 0,
-        color: "#9f8193", // Spectral Soft Plum
+        color: "#607c3c", // Forest Sage
       },
     ];
 

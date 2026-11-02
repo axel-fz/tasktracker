@@ -62,16 +62,16 @@ export default function Header({
           onClick={toggleTheme}
           title={
             theme === "light"
-              ? "Switch to Spectral Midnight Mode"
-              : "Switch to Spectral Porcelain Mode"
+              ? "Switch to Botanical Deep Olive Mode"
+              : "Switch to Primrose Linen Mode"
           }
           aria-label="Toggle theme mode"
           className="p-1.5 sm:p-2 text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#131e33] rounded-lg transition-colors cursor-pointer"
         >
           {theme === "light" ? (
-            <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-[#b23255]" />
+            <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-[#607c3c]" />
           ) : (
-            <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-[#fe9346]" />
+            <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-[#b5e550]" />
           )}
         </button>
 
@@ -89,15 +89,15 @@ export default function Header({
           className="relative p-1.5 sm:p-2 text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#131e33] rounded-lg transition-colors"
         >
           <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#ff5249] rounded-full ring-2 ring-[#180614]" />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#b5e550] rounded-full ring-2 ring-[#11170c]" />
         </button>
 
         {/* Primary Action Button: + New Task */}
         <button
           onClick={onOpenNewTask}
-          className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-[#ff5249] to-[#fd7249] hover:from-[#ff645c] hover:to-[#ff8059] text-white text-xs sm:text-sm font-semibold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md shadow-[#ff5249]/25 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
+          className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-[#b5e550] to-[#abc32f] hover:from-[#c2ec65] hover:to-[#b8d03c] text-[#0f160b] text-xs sm:text-sm font-bold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md shadow-[#b5e550]/20 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 stroke-[2.5]" />
           <span className="hidden xs:inline">New Task</span>
           <span className="xs:hidden">New</span>
         </button>

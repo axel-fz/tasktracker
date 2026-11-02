@@ -74,7 +74,7 @@ export default function Sidebar({
                 }`}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-gradient-to-b from-[#ff5249] to-[#fd7249] rounded-r-md shadow-xs shadow-[#ff5249]/50" />
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-gradient-to-b from-[#b5e550] to-[#abc32f] rounded-r-md shadow-xs shadow-[#b5e550]/40" />
                 )}
                 <Icon
                   className={`w-4 h-4 ${
@@ -99,7 +99,7 @@ export default function Sidebar({
           }`}
         >
           {currentView === "Settings" && (
-            <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-gradient-to-b from-[#ff5249] to-[#fd7249] rounded-r-md shadow-xs shadow-[#ff5249]/50" />
+            <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-gradient-to-b from-[#b5e550] to-[#abc32f] rounded-r-md shadow-xs shadow-[#b5e550]/40" />
           )}
           <Settings
             className={`w-4 h-4 ${
@@ -112,7 +112,7 @@ export default function Sidebar({
         {/* Profile Pill */}
         <div className="flex items-center justify-between p-2 rounded-lg bg-[#111c30] border border-[#1e2f4d]/60 hover:bg-[#15233c] transition-colors">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#b23255] via-[#ff5249] to-[#fe9346] flex items-center justify-center text-white font-semibold text-xs flex-shrink-0 shadow-inner ring-1 ring-white/20 overflow-hidden">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#607c3c] via-[#809c13] to-[#b5e550] flex items-center justify-center text-[#11170c] font-bold text-xs flex-shrink-0 shadow-inner ring-1 ring-white/20 overflow-hidden">
               <span className="tracking-tighter">UP</span>
             </div>
             <div className="min-w-0 text-left">

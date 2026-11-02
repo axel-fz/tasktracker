@@ -18,13 +18,13 @@ interface CategoryModalProps {
 }
 
 const PRESET_COLORS = [
-  { name: "Sunset Coral", hex: "#ff5249" },
-  { name: "Warm Tangerine", hex: "#fd7249" },
-  { name: "Golden Amber", hex: "#fe9346" },
-  { name: "Crimson Wine", hex: "#b23255" },
-  { name: "Midnight Plum", hex: "#461336" },
-  { name: "Emerald Teal", hex: "#10b981" },
-  { name: "Deep Indigo", hex: "#6366f1" },
+  { name: "Lime Chartreuse", hex: "#b5e550" },
+  { name: "Citron Moss", hex: "#abc32f" },
+  { name: "Deep Olive", hex: "#809c13" },
+  { name: "Forest Sage", hex: "#607c3c" },
+  { name: "Primrose Cream", hex: "#ececa3" },
+  { name: "Warm Amber", hex: "#ff7849" },
+  { name: "Ocean Teal", hex: "#0d9488" },
 ];
 
 export default function CategoryModal({
@@ -45,13 +45,13 @@ export default function CategoryModal({
     resolver: zodResolver(createCategorySchema) as any,
     defaultValues: {
       name: categoryToEdit?.name || "",
-      color: categoryToEdit?.color || "#ff5249",
+      color: categoryToEdit?.color || "#b5e550",
       icon: categoryToEdit?.icon || "Folder",
       description: categoryToEdit?.description || "",
     },
   });
 
-  const selectedColor = useWatch({ control, name: "color" }) || "#ff5249";
+  const selectedColor = useWatch({ control, name: "color" }) || "#b5e550";
   const nameValue = useWatch({ control, name: "name" }) || "";
 
   // Handle escape key

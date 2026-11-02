@@ -75,7 +75,7 @@ export default function DashboardOverview({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1e2f4e]/80">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+            <div className="w-7 h-7 rounded-lg bg-[#b5e550]/15 border border-[#b5e550]/30 flex items-center justify-center text-[#b5e550]">
               <Sparkles className="w-4 h-4" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f8fafc]">
@@ -107,9 +107,9 @@ export default function DashboardOverview({
 
           <button
             onClick={onOpenNewTask}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 text-xs font-semibold rounded-lg bg-[#1d4ed8] hover:bg-[#2563eb] text-white shadow-md hover:shadow-blue-600/25 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-[#b5e550] to-[#abc32f] hover:from-[#c2ec65] hover:to-[#b8d03c] text-[#0f160b] shadow-md shadow-[#b5e550]/20 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>New Task</span>
           </button>
         </div>
@@ -378,21 +378,21 @@ export default function DashboardOverview({
                 style={{
                   width: `${counts.all > 0 ? (counts.done / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-[#10b981] h-full transition-all duration-300"
+                className="bg-[#b5e550] h-full transition-all duration-300"
                 title={`Done: ${counts.done}`}
               />
               <div
                 style={{
                   width: `${counts.all > 0 ? (counts.inProgress / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-[#fd7249] h-full transition-all duration-300"
+                className="bg-[#abc32f] h-full transition-all duration-300"
                 title={`In Progress: ${counts.inProgress}`}
               />
               <div
                 style={{
                   width: `${counts.all > 0 ? (counts.todo / counts.all) * 100 : 0}%`,
                 }}
-                className="bg-[#b23255] h-full transition-all duration-300"
+                className="bg-[#809c13] h-full transition-all duration-300"
                 title={`To Do: ${counts.todo}`}
               />
             </div>
@@ -400,7 +400,7 @@ export default function DashboardOverview({
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#b5e550]" />
                   <span className="text-[#cad5e2]">Done</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
@@ -410,7 +410,7 @@ export default function DashboardOverview({
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#fd7249]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#abc32f]" />
                   <span className="text-[#cad5e2]">In Progress</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
@@ -420,7 +420,7 @@ export default function DashboardOverview({
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#b23255]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#809c13]" />
                   <span className="text-[#cad5e2]">To Do</span>
                 </div>
                 <span className="font-mono text-[#f8fafc] font-semibold">
