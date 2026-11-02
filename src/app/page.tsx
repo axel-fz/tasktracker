@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useTransition } from "react";
 import { toast } from "sonner";
-import { CheckCircle2, Database, ShieldCheck, Tag, X } from "lucide-react";
+import { CheckCircle2, Tag, X } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import TaskFilterTabs, { FilterTab } from "@/components/TaskFilterTabs";
@@ -13,6 +13,7 @@ import TaskSkeletons from "@/components/TaskSkeletons";
 import EmptyState from "@/components/EmptyState";
 import CategoriesView from "@/components/CategoriesView";
 import AnalyticsView from "@/components/AnalyticsView";
+import SettingsView from "@/components/SettingsView";
 import {
   ITaskResponse,
   CreateTaskInput,
@@ -351,58 +352,7 @@ export default function DashboardPage() {
               }}
             />
           ) : currentView === "Settings" ? (
-            <div className="space-y-6 animate-in fade-in duration-150">
-              <div className="pb-4 border-b border-[#1e2f4e]/80">
-                <h1 className="text-xl font-bold tracking-tight text-[#f8fafc]">
-                  System & Database Settings
-                </h1>
-                <p className="text-xs text-[#7f98b3] mt-0.5">
-                  Environment connection parameters and infrastructure health
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-[#1e2f4e]/80 bg-[#131e33] p-6 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <Database className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-bold text-[#f8fafc]">
-                      MongoDB Atlas Cloud Storage
-                    </h2>
-                    <p className="text-xs text-[#7f98b3]">
-                      Connected to remote cluster replica set
-                    </p>
-                  </div>
-                  <span className="ml-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Online
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#1e2f4e]/60 text-xs">
-                  <div className="p-3 bg-[#0d1627] rounded-lg border border-[#1e2f4e]">
-                    <span className="text-[#7f98b3] block font-medium">Cluster Host</span>
-                    <span className="text-[#f8fafc] font-mono mt-0.5 block">
-                      tasktracker.rnv70gc.mongodb.net
-                    </span>
-                  </div>
-                  <div className="p-3 bg-[#0d1627] rounded-lg border border-[#1e2f4e]">
-                    <span className="text-[#7f98b3] block font-medium">Database Name</span>
-                    <span className="text-[#f8fafc] font-mono mt-0.5 block">
-                      tasktracker
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 pt-2 text-xs text-[#7f98b3]">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>
-                    Authenticated with encrypted TLS connection and strict Mongoose schema validation.
-                  </span>
-                </div>
-              </div>
-            </div>
+            <SettingsView />
           ) : (
             /* Main Task Tracker Dashboard View */
             <div>

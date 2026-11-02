@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Search, HelpCircle, Bell, Plus } from "lucide-react";
+import { Search, HelpCircle, Bell, Plus, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
 
 interface HeaderProps {
   searchQuery: string;
@@ -14,6 +15,8 @@ export default function Header({
   onSearchChange,
   onOpenNewTask,
 }: HeaderProps) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="h-16 flex items-center justify-between px-8 border-b border-[#1e2f4d]/80 bg-[#0b111e]/90 backdrop-blur sticky top-0 z-20">
       {/* Global Search Bar */}
@@ -38,6 +41,21 @@ export default function Header({
         
       {/* Header Right Actions */}
       <div className="flex items-center gap-3">
+        {/* Quick Theme Toggle */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          title={theme === "light" ? "Switch to Dark Navy Mode" : "Switch to White / Light Mode"}
+          aria-label="Toggle theme mode"
+          className="p-2 text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#131e33] rounded-lg transition-colors cursor-pointer"
+        >
+          {theme === "light" ? (
+            <Moon className="w-5 h-5 text-blue-600" />
+          ) : (
+            <Sun className="w-5 h-5 text-amber-400" />
+          )}
+        </button>
+
         {/* Help Icon */}
         <button
           title="Help & Documentation"

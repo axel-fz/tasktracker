@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "sonner";
+import { ThemeProvider } from "@/context/ThemeContext";
+import AppToaster from "@/components/AppToaster";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Task Tracker - Dashboard",
-  description: "Production-grade task management dashboard built with Next.js, TypeScript, Tailwind CSS, and Mongoose.",
+  description:
+    "Production-grade task management dashboard built with Next.js, TypeScript, Tailwind CSS, and Mongoose.",
 };
 
 export default function RootLayout({
@@ -24,24 +26,37 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} dark`}>
-      <body className="min-h-screen bg-[#0b111e] text-[#f8fafc] antialiased">
-        {children}
-        <Toaster
-          position="bottom-right"
-          theme="dark"
-          closeButton
-          toastOptions={{
-            style: {
-              background: "#131e33",
-              color: "#f8fafc",
-              border: "1px solid #1f304f",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5)",
-            },
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const storedTheme = localStorage.getItem('tasktracker_theme');
+                if (storedTheme === 'light') {
+                  document.documentElement.classList.add('light');
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                  document.documentElement.classList.remove('light');
+                }
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
+            `,
           }}
         />
+      </head>
+      <body className="min-h-screen bg-[#0b111e] text-[#f8fafc] antialiased">
+        <ThemeProvider>
+          {children}
+          <AppToaster />
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-
