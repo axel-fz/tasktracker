@@ -1,9 +1,16 @@
 import mongoose from "mongoose";
+import dns from "dns";
+
+// Prioritize IPv4 resolution to prevent IPv6 negotiation timeout delays on Linux
+try {
+  dns.setDefaultResultOrder("ipv4first");
+} catch {
+  // Ignored in runtimes where not available
+}
 
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
-  memServer?: unknown;
 }
 
 declare global {
@@ -25,44 +32,25 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
     cached!.promise = (async () => {
       const MONGODB_URI = process.env.MONGODB_URI;
 
-      if (MONGODB_URI) {
-        try {
-          const m = await mongoose.connect(MONGODB_URI, {
-            bufferCommands: false,
-            serverSelectionTimeoutMS: 15000,
-            connectTimeoutMS: 15000,
-            dbName: "tasktracker",
-          });
-          console.log(
-            `[MongoDB] Successfully connected to database "${m.connection.name}" at host: ${m.connection.host}`
-          );
-          return m;
-        } catch (err) {
-          console.warn(
-            "[MongoDB] Direct connection to MONGODB_URI failed, attempting in-memory fallback:",
-            (err as Error).message
-          );
-        }
+      if (!MONGODB_URI) {
+        throw new Error(
+          "Please define the MONGODB_URI environment variable inside .env.local"
+        );
       }
 
-      // Development / offline fallback in-memory MongoDB server
-      try {
-        const { MongoMemoryServer } = await import("mongodb-memory-server");
-        if (!cached!.memServer) {
-          cached!.memServer = await MongoMemoryServer.create();
-        }
-        const memServer = cached!.memServer as { getUri: () => string };
-        const memUri = memServer.getUri();
-        const m = await mongoose.connect(memUri, {
-          bufferCommands: false,
-          dbName: "tasktracker",
-        });
-        console.log("[MongoDB] Connected to local in-memory fallback:", memUri);
-        return m;
-      } catch (memErr) {
-        console.error("[MongoDB] In-memory MongoDB failed:", memErr);
-        throw new Error("Unable to establish a MongoDB connection.");
-      }
+      console.log("[MongoDB] Connecting to MongoDB Atlas cluster...");
+      const m = await mongoose.connect(MONGODB_URI, {
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 30000,
+        connectTimeoutMS: 30000,
+        family: 4,
+        dbName: "tasktracker",
+      });
+
+      console.log(
+        `[MongoDB] Successfully connected to database "${m.connection.name}" at host: ${m.connection.host}`
+      );
+      return m;
     })();
   }
 
@@ -70,6 +58,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
     cached!.conn = await cached!.promise;
   } catch (e) {
     cached!.promise = null;
+    cached!.conn = null;
     throw e;
   }
 
