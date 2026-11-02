@@ -132,9 +132,9 @@ export default function TaskRow({
         </div>
 
         {/* Middle/Right Section: Date, Status, Priority, and Action Buttons */}
-        <div className="flex items-center justify-between lg:justify-end gap-3 sm:gap-6 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#1e2f4e]/50">
+        <div className="flex items-center justify-between lg:justify-end gap-2 sm:gap-4 lg:gap-6 pt-2.5 lg:pt-0 border-t lg:border-t-0 border-[#1e2f4e]/50 flex-wrap sm:flex-nowrap">
           {/* Date Created Column */}
-          <div className="flex flex-col items-start min-w-[80px]">
+          <div className="hidden xs:flex flex-col items-start min-w-[65px] sm:min-w-[80px]">
             <span className="text-[10px] uppercase font-semibold tracking-wider text-[#7f98b3]">
               Date Created
             </span>
@@ -144,7 +144,7 @@ export default function TaskRow({
           </div>
 
           {/* Status Badge Column */}
-          <div className="relative flex flex-col items-start min-w-[85px]">
+          <div className="relative flex flex-col items-start min-w-[75px] sm:min-w-[85px]">
             <span className="text-[10px] uppercase font-semibold tracking-wider text-[#7f98b3]">
               Status
             </span>
@@ -189,7 +189,7 @@ export default function TaskRow({
           </div>
 
           {/* Priority Badge Column */}
-          <div className="relative flex flex-col items-start min-w-[75px]">
+          <div className="relative flex flex-col items-start min-w-[70px] sm:min-w-[75px]">
             <span className="text-[10px] uppercase font-semibold tracking-wider text-[#7f98b3]">
               Priority
             </span>
@@ -210,7 +210,7 @@ export default function TaskRow({
             {/* Quick Priority Dropdown Menu */}
             {showPriorityMenu && onUpdatePriority && (
               <div
-                className="absolute top-12 left-0 z-30 bg-[#0f172a] border border-[#1e2f4e] rounded-lg shadow-xl p-1 w-28 space-y-0.5"
+                className="absolute top-12 right-0 sm:right-auto sm:left-0 z-30 bg-[#0f172a] border border-[#1e2f4e] rounded-lg shadow-xl p-1 w-28 space-y-0.5"
                 onClick={(e) => e.stopPropagation()}
               >
                 {(["Low", "Medium", "High"] as TaskPriority[]).map((p) => (
@@ -234,7 +234,7 @@ export default function TaskRow({
           </div>
 
           {/* Actions Column (Pencil, Trash, Expand) */}
-          <div className="flex items-center gap-1.5 ml-2">
+          <div className="flex items-center gap-1 sm:gap-1.5 ml-auto sm:ml-2">
             {/* Edit Button */}
             <button
               type="button"

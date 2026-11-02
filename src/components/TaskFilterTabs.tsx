@@ -28,7 +28,7 @@ export default function TaskFilterTabs({
   ];
 
   return (
-    <div className="flex items-center gap-6 border-b border-[#1e2f4d]/80 pb-px mb-6 overflow-x-auto no-scrollbar">
+    <div className="flex items-center gap-4 sm:gap-6 border-b border-[#1e2f4d]/80 pb-px mb-6 overflow-x-auto no-scrollbar whitespace-nowrap touch-pan-x">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
 

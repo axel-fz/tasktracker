@@ -46,6 +46,7 @@ export default function DashboardPage() {
 
   // Active sidebar view: "Dashboard" | "Tasks" | "Categories" | "Analytics" | "Settings"
   const [currentView, setCurrentView] = useState("Dashboard");
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const triggerRefresh = useCallback(() => {
@@ -311,9 +312,11 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen bg-[#0b111e] text-[#f8fafc]">
-      {/* 1. Left Sidebar */}
+      {/* 1. Left Sidebar (Responsive desktop & mobile drawer) */}
       <Sidebar
         currentView={currentView}
+        isMobileOpen={isMobileSidebarOpen}
+        onMobileClose={() => setIsMobileSidebarOpen(false)}
         onNavigate={(view) => {
           setCurrentView(view);
           if (view === "Tasks" || view === "Dashboard") {
@@ -329,6 +332,7 @@ export default function DashboardPage() {
         <Header
           searchQuery={searchQuery}
           onSearchChange={(q) => setSearchQuery(q)}
+          onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
           onOpenNewTask={() => {
             setTaskToEdit(null);
             setIsTaskModalOpen(true);
@@ -336,7 +340,7 @@ export default function DashboardPage() {
         />
 
         {/* Dynamic Main View Area */}
-        <main className="flex-1 px-8 py-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto">
           {currentView === "Categories" ? (
             <CategoriesView
               onSelectCategoryTasks={(catName) => {

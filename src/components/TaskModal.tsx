@@ -84,13 +84,13 @@ export default function TaskModal({
       }}
     >
       <div
-        className="w-full max-w-lg bg-[#111c30] border border-[#1e2f4e] rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-lg bg-[#111c30] border border-[#1e2f4e] rounded-xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2f4e]/80 bg-[#131e33]">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#1e2f4e]/80 bg-[#131e33] shrink-0">
           <div>
-            <h2 id="modal-title" className="text-lg font-bold text-[#f8fafc]">
+            <h2 id="modal-title" className="text-base sm:text-lg font-bold text-[#f8fafc]">
               {isEditing ? "Edit Task" : "Create New Task"}
             </h2>
             <p className="text-xs text-[#7f98b3] mt-0.5">
@@ -111,7 +111,7 @@ export default function TaskModal({
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1">
           {/* Title Field */}
           <div>
             <div className="flex items-center justify-between mb-1.5">

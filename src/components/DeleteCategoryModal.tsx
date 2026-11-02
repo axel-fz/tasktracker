@@ -50,7 +50,7 @@ export default function DeleteCategoryModal({
       }}
     >
       <div
-        className="w-full max-w-md bg-[#111c30] border border-[#2d1b28] rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-md bg-[#111c30] border border-[#2d1b28] rounded-xl shadow-2xl overflow-hidden max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">

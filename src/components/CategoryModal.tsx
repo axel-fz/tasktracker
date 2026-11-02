@@ -81,13 +81,13 @@ export default function CategoryModal({
       }}
     >
       <div
-        className="w-full max-w-md bg-[#111c30] border border-[#1e2f4e] rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-md bg-[#111c30] border border-[#1e2f4e] rounded-xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2f4e]/80 bg-[#131e33]">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#1e2f4e]/80 bg-[#131e33] shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-[#f8fafc]">
+            <h2 className="text-base sm:text-lg font-bold text-[#f8fafc]">
               {isEditing ? "Edit Category" : "New Category"}
             </h2>
             <p className="text-xs text-[#7f98b3] mt-0.5">
@@ -98,14 +98,14 @@ export default function CategoryModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="p-1.5 rounded-lg text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#1e2f4e] transition-colors"
+            className="p-1.5 rounded-lg text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#1e2f4e] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1">
           {/* Name Field */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
