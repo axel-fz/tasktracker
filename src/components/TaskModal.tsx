@@ -24,6 +24,7 @@ interface TaskModalProps {
   onSubmit: (data: CreateTaskInput) => Promise<void>;
   taskToEdit?: ITaskResponse | null;
   categories?: CategoryOption[];
+  defaultCategory?: string | null;
 }
 
 export default function TaskModal({
@@ -32,6 +33,7 @@ export default function TaskModal({
   onSubmit,
   taskToEdit,
   categories = [],
+  defaultCategory,
 }: TaskModalProps) {
   const isEditing = Boolean(taskToEdit);
 
@@ -55,6 +57,7 @@ export default function TaskModal({
   const titleValue = useWatch({ control, name: "title" }) || "";
   const descriptionValue = useWatch({ control, name: "description" }) || "";
 
+  // Reset form values strictly when the modal opens
   useEffect(() => {
     if (isOpen) {
       if (taskToEdit) {
@@ -71,11 +74,11 @@ export default function TaskModal({
           description: "",
           status: "To Do",
           priority: "Medium",
-          category: categories[0]?.name || "General",
+          category: defaultCategory || "General",
         });
       }
     }
-  }, [isOpen, taskToEdit, categories, reset]);
+  }, [isOpen, taskToEdit, defaultCategory, reset]);
 
   // Handle escape key
   useEffect(() => {
@@ -125,7 +128,7 @@ export default function TaskModal({
             onClick={onClose}
             disabled={isSubmitting}
             aria-label="Close dialog"
-            className="p-1.5 rounded-lg text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#1e2f4e] transition-colors"
+            className="p-1.5 rounded-lg text-[#7f98b3] hover:text-[#f8fafc] hover:bg-[#1e2f4e] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -142,13 +145,14 @@ export default function TaskModal({
               >
                 Task Title <span className="text-red-400">*</span>
               </label>
-              <span className="text-[11px] text-[#627d98]">
+              <span className={`text-[11px] ${titleValue.length >= 110 ? "text-amber-400 font-semibold" : "text-[#627d98]"}`}>
                 {titleValue.length}/120
               </span>
             </div>
             <input
               id="task-title"
               type="text"
+              autoFocus
               placeholder="e.g. Implement MongoDB Schema"
               maxLength={120}
               {...register("title")}
@@ -172,7 +176,7 @@ export default function TaskModal({
               >
                 Description
               </label>
-              <span className="text-[11px] text-[#627d98]">
+              <span className={`text-[11px] ${descriptionValue.length >= 450 ? "text-amber-400 font-semibold" : "text-[#627d98]"}`}>
                 {descriptionValue.length}/500
               </span>
             </div>
@@ -210,17 +214,16 @@ export default function TaskModal({
                 {...register("category")}
                 className="w-full bg-[#0d1627] border border-[#1e2f4e] rounded-lg px-3 py-2 text-sm text-[#f8fafc] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer"
               >
-                {categories.length > 0 ? (
-                  categories.map((c) => (
+                <option value="General" className="bg-[#111c30]">
+                  General
+                </option>
+                {categories
+                  .filter((c) => c.name.toLowerCase() !== "general")
+                  .map((c) => (
                     <option key={c._id} value={c.name} className="bg-[#111c30]">
                       {c.name}
                     </option>
-                  ))
-                ) : (
-                  <option value="General" className="bg-[#111c30]">
-                    General
-                  </option>
-                )}
+                  ))}
               </select>
             </div>
 

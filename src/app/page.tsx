@@ -491,6 +491,7 @@ export default function DashboardPage() {
         onSubmit={handleSaveTask}
         taskToEdit={taskToEdit}
         categories={categories}
+        defaultCategory={selectedCategory}
       />
 
       {/* 4. Delete Confirmation Dialog */}
