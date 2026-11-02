@@ -217,12 +217,9 @@ export default function TaskModal({
                     </option>
                   ))
                 ) : (
-                  <>
-                    <option value="General" className="bg-[#111c30]">General</option>
-                    <option value="Engineering" className="bg-[#111c30]">Engineering</option>
-                    <option value="Design" className="bg-[#111c30]">Design</option>
-                    <option value="Product" className="bg-[#111c30]">Product</option>
-                  </>
+                  <option value="General" className="bg-[#111c30]">
+                    General
+                  </option>
                 )}
               </select>
             </div>

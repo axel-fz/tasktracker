@@ -3,12 +3,10 @@ import connectToDatabase from "@/lib/mongodb";
 import Category from "@/models/Category";
 import Task from "@/models/Task";
 import { createCategorySchema } from "@/lib/validations/category";
-import { seedInitialTasks } from "@/lib/seed";
 
 export async function GET() {
   try {
     await connectToDatabase();
-    await seedInitialTasks();
 
     const [categories, counts] = await Promise.all([
       Category.find().sort({ createdAt: -1 }).lean(),

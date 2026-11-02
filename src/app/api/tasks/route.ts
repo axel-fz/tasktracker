@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import Task from "@/models/Task";
 import { createTaskSchema, TASK_STATUSES, TaskStatus } from "@/lib/validations/task";
-import { seedInitialTasks } from "@/lib/seed";
 
 function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -11,7 +10,6 @@ function escapeRegex(str: string): string {
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    await seedInitialTasks();
 
     const { searchParams } = request.nextUrl;
     const statusParam = searchParams.get("status");

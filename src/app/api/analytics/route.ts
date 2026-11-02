@@ -2,12 +2,10 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import Task from "@/models/Task";
 import Category from "@/models/Category";
-import { seedInitialTasks } from "@/lib/seed";
 
 export async function GET() {
   try {
     await connectToDatabase();
-    await seedInitialTasks();
 
     const [
       totalTasks,
